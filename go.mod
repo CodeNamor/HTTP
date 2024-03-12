@@ -1,4 +1,4 @@
-module github.com/codenamor/http
+module github.com/CodeNamor/http
 
 go 1.20
 
