@@ -24,19 +24,19 @@ func NewExtendedHTTPClient(maxRetries int, hc *http.Client) RetryClient {
 	rc.KeepLog = false // must be false so LogHook can be used
 	rc.LogHook = createLogHook(maxRetries)
 
-	instrumentedClient := &instrumentedHTTPClient{
+	InstrumentedClient := &InstrumentedHttpClient{
 		client: rc,
 	}
-	return instrumentedClient
+	return InstrumentedClient
 }
 
 // InstrumentedHttpClient instruments the request, so we can determine the
 // timings and whether a keep-alive client was used
-type instrumentedHTTPClient struct {
+type InstrumentedHttpClient struct {
 	client RetryClient
 }
 
-func (ihc instrumentedHTTPClient) Do(req *http.Request) (*http.Response, error) {
+func (ihc InstrumentedHttpClient) Do(req *http.Request) (*http.Response, error) {
 	req, requestDone := InstrumentHTTPRequest(req)
 	// we could call requestDone after downloading the content to get that timing
 	// as well but that would require passing this down, so this is simpler
