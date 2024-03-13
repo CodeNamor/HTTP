@@ -3,6 +3,7 @@ package apiclient
 import (
 	"context"
 	"errors"
+	cLog "github.com/CodeNamor/custom_logging"
 	log "github.com/sirupsen/logrus"
 	"io"
 	"io/ioutil"
@@ -136,17 +137,12 @@ func (c *Client) Do(ctx context.Context, request *http.Request) (*Response, erro
 		return resp, err
 	}
 
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-
-		}
-	}(response.Body)
+	defer response.Body.Close()
 	if response.Body != nil {
 		resp.Body, err = ioutil.ReadAll(response.Body)
 		if err != nil {
 			resp.StatusCode = http.StatusInternalServerError
-			log.Errorf("error reading HTTP response body: %v", err.Error())
+			log.WithFields(cLog.FieldsFromCTX(ctx)).Errorf("Error reading HTTP response body: %v\n", err)
 			return resp, err
 		}
 	}

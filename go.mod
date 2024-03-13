@@ -12,6 +12,7 @@ require (
 	github.com/sethgrid/pester v1.2.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.9.0
+	github.com/CodeNamor/custom_logging v0.1.1
 )
 
 require (
@@ -26,6 +27,5 @@ require (
 )
 
 replace (
-	github.com/codenamor/custom_logging => ../custom_logging
 	github.com/codenamor/utilities => ../utilities
 )
